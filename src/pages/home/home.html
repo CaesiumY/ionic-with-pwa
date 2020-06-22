@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Simple Login
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>User Information</ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label floating>Name</ion-label>
+        <ion-input type="text" [value]="username" readonly></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="email" [value]="userEmail" readonly></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>ID</ion-label>
+        <ion-input type="text" [value]="userId" readonly></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
