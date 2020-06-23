@@ -1,8 +1,8 @@
 {
-  "name": "simple-login",
+  "name": "ionic-pwa",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "caesiumy",
+  "homepage": "https://github.com/CaesiumY",
   "private": true,
   "scripts": {
     "start": "ionic-app-scripts serve",
@@ -34,5 +34,5 @@
     "@ionic/app-scripts": "3.2.4",
     "typescript": "2.6.2"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project with PWA"
 }
