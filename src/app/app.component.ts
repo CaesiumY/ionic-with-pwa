@@ -6,20 +6,7 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 import { HomePage } from "../pages/home/home";
 import { LoginPage } from "../pages/login/login";
 import * as firebase from "firebase";
-// import "firebase/auth";
-
-// Your web app's Firebase configuration
-var firebaseConfig = {
-  apiKey: "AIzaSyBbWdFogmNWrAcbvt8SG8Lm4XsoxPcyJzU",
-  authDomain: "ionic-with-firebase-3234c.firebaseapp.com",
-  databaseURL: "https://ionic-with-firebase-3234c.firebaseio.com",
-  projectId: "ionic-with-firebase-3234c",
-  storageBucket: "ionic-with-firebase-3234c.appspot.com",
-  messagingSenderId: "782825335965",
-  appId: "1:782825335965:web:5bb33ed19335c09a5df874",
-  measurementId: "G-ML2PTKNBRE",
-};
-// Initialize Firebase
+import { firebaseConfig } from "../token";
 
 @Component({
   templateUrl: "app.html",
@@ -38,6 +25,7 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
     });
+    console.log("MyApp -> firebaseConfig", firebaseConfig);
 
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged((user) => {
