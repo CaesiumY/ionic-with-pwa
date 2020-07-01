@@ -30,3 +30,9 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+
+<ion-footer *ngIf="masterSwitch">
+  <ion-navbar>
+    <button ion-button full clear (click)="toManager()">Manager</button>
+  </ion-navbar>
+</ion-footer>

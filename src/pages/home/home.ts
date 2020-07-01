@@ -11,10 +11,14 @@ export class HomePage {
   private userEmail: any;
   private userId: any;
 
+  private masterEmail: any = "test4@test.com"; // NOTE - NOT RECOMMENDED CONTROL. but lecturer did like this.
+  private masterSwitch: any;
+
   constructor(
     public navCtrl: NavController,
     private alerCtrl: AlertController
   ) {
+    this.masterSwitch = false;
     this.initPage();
   }
 
@@ -26,7 +30,10 @@ export class HomePage {
       this.username = user.displayName;
       this.userEmail = user.email;
       this.userId = user.uid;
-    } else {
+
+      if (user.email === this.masterEmail) {
+        this.masterSwitch = true;
+      }
     }
   }
 
