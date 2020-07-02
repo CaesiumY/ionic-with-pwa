@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { NavController, AlertController } from "ionic-angular";
 import * as firebase from "firebase";
+import { ManagerPage } from "../manager/manager";
 
 @Component({
   selector: "page-home",
@@ -20,6 +21,10 @@ export class HomePage {
   ) {
     this.masterSwitch = false;
     this.initPage();
+  }
+
+  toManager() {
+    this.navCtrl.push(ManagerPage);
   }
 
   initPage() {
