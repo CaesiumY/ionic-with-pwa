@@ -8,13 +8,35 @@ import { MyApp } from "./app.component";
 import { HomePage } from "../pages/home/home";
 import { LoginPage } from "../pages/login/login";
 import { SignupPage } from "../pages/signup/signup";
-import { LoaderProvider } from '../providers/loader/loader';
+import { LoaderProvider } from "../providers/loader/loader";
+import { ManagerPage } from "../pages/manager/manager";
+import { UserPage } from "../pages/user/user";
+import { CategoryPage } from "../pages/category/category";
+import { NewsPage } from "../pages/news/news";
 
 @NgModule({
-  declarations: [MyApp, HomePage, LoginPage, SignupPage],
+  declarations: [
+    MyApp,
+    HomePage,
+    LoginPage,
+    SignupPage,
+    ManagerPage,
+    UserPage,
+    CategoryPage,
+    NewsPage,
+  ],
   imports: [BrowserModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, HomePage, LoginPage, SignupPage],
+  entryComponents: [
+    MyApp,
+    HomePage,
+    LoginPage,
+    SignupPage,
+    ManagerPage,
+    UserPage,
+    CategoryPage,
+    NewsPage,
+  ],
   providers: [
     StatusBar,
     SplashScreen,
