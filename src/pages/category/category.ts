@@ -4,6 +4,7 @@ import {
   NavController,
   NavParams,
   AlertController,
+  ItemSliding,
 } from "ionic-angular";
 import firebase from "firebase";
 import { LoaderProvider } from "../../providers/loader/loader";
@@ -73,6 +74,61 @@ export class CategoryPage {
         {
           name: "title",
           placeholder: "Title",
+        },
+      ],
+      buttons: [
+        {
+          text: "취소",
+          handler: () => {
+            console.log("category add cancelled");
+          },
+        },
+        {
+          text: "저장",
+          handler: (data) => {
+            console.log("CategoryPage -> add -> data", data);
+
+            var tmpCategory = {
+              title: data.title,
+              code: data.code,
+            };
+
+            var updates = {};
+            updates[
+              "/users/" +
+                firebase.auth().currentUser.uid +
+                "/category/" +
+                data.code
+            ] = tmpCategory;
+            firebase
+              .database()
+              .ref()
+              .update(updates)
+              .catch((error) => console.warn("category update error", error));
+          },
+        },
+      ],
+    });
+
+    prompt.present();
+  }
+
+  edit(slidingItem: ItemSliding, item) {
+    slidingItem.close();
+
+    let prompt = this.alertCtrl.create({
+      title: "카테고리 정보 입력",
+      message: "카테고리 정보를 입력하여 주세요.",
+      inputs: [
+        {
+          name: "code",
+          placeholder: "code",
+          value: item.code,
+        },
+        {
+          name: "title",
+          placeholder: "Title",
+          value: item.title,
         },
       ],
       buttons: [

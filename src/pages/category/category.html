@@ -17,9 +17,18 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let item of category">
-      <div class="code">{{item.code}}</div>
-      <div class="title">{{item.title}}</div>
-    </ion-item>
+    <ion-item-sliding #slidingItem *ngFor="let item of category">
+      <ion-item>
+        <div class="code">{{item.code}}</div>
+        <div class="title">{{item.title}}</div>
+      </ion-item>
+
+      <ion-item-options side="right">
+        <button ion-button (click)="edit(slidingItem, item)">수정</button>
+        <button ion-button (click)="delete(slidingItem, item)" color="danger">
+          삭제
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>
