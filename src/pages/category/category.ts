@@ -167,4 +167,39 @@ export class CategoryPage {
 
     prompt.present();
   }
+
+  delete(slidingItem: ItemSliding, item) {
+    slidingItem.close();
+
+    let confirm = this.alertCtrl.create({
+      title: "카테고리 삭제",
+      message: item.title + "을 삭제하시겠습니까?",
+      buttons: [
+        {
+          text: "아니요",
+          handler: () => {
+            console.log("category delete cancelled");
+          },
+        },
+        {
+          text: "예",
+          handler: () => {
+            var deleteRef = firebase
+              .database()
+              .ref(
+                "/users/" +
+                  firebase.auth().currentUser.uid +
+                  "/category/" +
+                  item.code
+              );
+            deleteRef
+              .remove()
+              .catch((error) => console.warn("delete error", error));
+          },
+        },
+      ],
+    });
+
+    confirm.present();
+  }
 }
