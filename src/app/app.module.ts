@@ -13,6 +13,7 @@ import { ManagerPage } from "../pages/manager/manager";
 import { UserPage } from "../pages/user/user";
 import { CategoryPage } from "../pages/category/category";
 import { NewsPage } from "../pages/news/news";
+import { NewsModalPage } from "../pages/news-modal/news-modal";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { NewsPage } from "../pages/news/news";
     UserPage,
     CategoryPage,
     NewsPage,
+    NewsModalPage,
   ],
   imports: [BrowserModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
@@ -36,6 +38,7 @@ import { NewsPage } from "../pages/news/news";
     UserPage,
     CategoryPage,
     NewsPage,
+    NewsModalPage,
   ],
   providers: [
     StatusBar,
