@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
+import firebase from "firebase";
+import { LoaderProvider } from "../../providers/loader/loader";
 
 /**
  * Generated class for the NewsModalPage page.
@@ -10,16 +12,49 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-news-modal',
-  templateUrl: 'news-modal.html',
+  selector: "page-news-modal",
+  templateUrl: "news-modal.html",
 })
 export class NewsModalPage {
+  private news = {
+    title: "",
+    category: "",
+    url: "",
+    source: "",
+  };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  private categoryData: any;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private loader: LoaderProvider
+  ) {
+    this.getCategoryData();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad NewsModalPage');
-  }
+  cancel() {}
 
+  async getCategoryData() {
+    this.loader.show();
+    try {
+      var categoryRef = firebase
+        .database()
+        .ref("/users/" + firebase.auth().currentUser.uid + "/category/");
+
+      const items = await categoryRef.once("value");
+      this.categoryData = [];
+      if (items) {
+        items.forEach((item: any) => {
+          this.categoryData.push({
+            title: item.val().title,
+            code: item.val().code,
+          });
+        });
+      }
+    } catch (error) {
+      console.log("NewsModalPage -> getCategoryData -> error", error);
+    }
+    this.loader.hide();
+  }
 }
