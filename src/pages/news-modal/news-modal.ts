@@ -1,5 +1,10 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ViewController,
+} from "ionic-angular";
 import firebase from "firebase";
 import { LoaderProvider } from "../../providers/loader/loader";
 
@@ -28,12 +33,19 @@ export class NewsModalPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private loader: LoaderProvider
+    private loader: LoaderProvider,
+    private viewCtrl: ViewController
   ) {
     this.getCategoryData();
   }
 
-  cancel() {}
+  save() {
+    this.viewCtrl.dismiss(this.news);
+  }
+
+  cancel() {
+    this.viewCtrl.dismiss();
+  }
 
   async getCategoryData() {
     this.loader.show();
