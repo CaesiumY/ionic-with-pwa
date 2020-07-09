@@ -5,13 +5,16 @@ page-news {
   font-size: 4vw;
   font-weight: bold;
   color: #3c6382;
+  margin-bottom: 1vw;
 }
 .news__category {
-  font-size: 4vw;
-  font-weight: bold;
+  font-size: 3vw;
   color: palevioletred;
 }
 .news__date {
-  font-size: 4vw;
-  font-weight: bold;
+  font-size: 3vw;
+}
+.news__source {
+  font-size: 3vw;
+  color: lightblue;
 }
