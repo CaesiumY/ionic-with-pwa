@@ -15,4 +15,12 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding> </ion-content>
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let newsItem of news" (click)="onClickNews(newsItem)">
+      <div class="news__title">{{newsItem.title}}</div>
+      <div class="news__category">{{newsItem.category}}</div>
+      <div class="news__date">{{newsItem.date}}</div>
+    </ion-item>
+  </ion-list>
+</ion-content>
