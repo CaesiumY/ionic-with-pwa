@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { NavController, AlertController } from "ionic-angular";
 import * as firebase from "firebase";
 import { ManagerPage } from "../manager/manager";
+import { LoaderProvider } from "../../providers/loader/loader";
 
 @Component({
   selector: "page-home",
@@ -17,7 +18,8 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    private alerCtrl: AlertController
+    private alerCtrl: AlertController,
+    private loader: LoaderProvider
   ) {
     this.masterSwitch = false;
     this.initPage();
@@ -28,18 +30,25 @@ export class HomePage {
   }
 
   initPage() {
-    var user = firebase.auth().currentUser;
+    this.loader.show();
+    try {
+      var user = firebase.auth().currentUser;
 
-    if (user) {
-      console.log("HomePage -> initPage -> user", user);
-      this.username = user.displayName;
-      this.userEmail = user.email;
-      this.userId = user.uid;
+      if (user) {
+        console.log("HomePage -> initPage -> user", user);
+        this.username = user.displayName;
+        this.userEmail = user.email;
+        this.userId = user.uid;
 
-      if (user.email === this.masterEmail) {
-        this.masterSwitch = true;
+        if (user.email === this.masterEmail) {
+          this.masterSwitch = true;
+        }
       }
+    } catch (error) {
+      console.warn("HomePage -> initPage -> error", error);
     }
+
+    this.loader.hide();
   }
 
   logout() {
