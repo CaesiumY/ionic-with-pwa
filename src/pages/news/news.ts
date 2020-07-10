@@ -37,7 +37,7 @@ export class NewsPage {
   async initPage() {
     this.loader.show();
     try {
-      var newsRef = firebase.database().ref("news/");
+      var newsRef = firebase.database().ref("news/").orderByChild("timeStamp");
 
       const items = await newsRef.once("value");
       if (items) {
@@ -66,8 +66,9 @@ export class NewsPage {
     let newsModal = this.modalCtrl.create(NewsModalPage);
 
     newsModal.onDidDismiss((data) => {
-      console.log(data);
-      this.updateNews(data);
+      if (data) {
+        this.updateNews(data);
+      }
     });
 
     newsModal.present();
@@ -75,6 +76,8 @@ export class NewsPage {
 
   updateNews(data) {
     var newPostKey = firebase.database().ref().child("news/").push().key;
+    let timeStamp: any = firebase.database.ServerValue.TIMESTAMP;
+    console.log("NewsPage -> updateNews -> timeStamp", timeStamp);
 
     var postData = {
       title: data.title,
@@ -84,6 +87,7 @@ export class NewsPage {
       date: moment().format("YYYY-MM-DD:HH:mm:SS"),
       clickCount: 0,
       key: newPostKey,
+      timeStamp,
     };
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
@@ -91,6 +95,28 @@ export class NewsPage {
     updates["/news/" + newPostKey] = postData;
     console.log("NewsPage -> updateNews -> updates", updates);
 
-    firebase.database().ref().update(updates);
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        var stampRef = firebase.database().ref("news/" + newPostKey);
+        var stamp: any;
+
+        stampRef
+          .once("value", (item: any) => {
+            stamp = item.val().timeStamp * -1;
+          })
+          .then(() => {
+            firebase
+              .database()
+              .ref("news/" + newPostKey)
+              .update({
+                timeStamp: stamp,
+              });
+
+            this.initPage();
+          });
+      });
   }
 }
