@@ -4,6 +4,8 @@ import {
   NavController,
   NavParams,
   ModalController,
+  ItemSliding,
+  AlertController,
 } from "ionic-angular";
 import { NewsModalPage } from "../news-modal/news-modal";
 import firebase from "firebase";
@@ -29,7 +31,8 @@ export class NewsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private modalCtrl: ModalController,
-    private loader: LoaderProvider
+    private loader: LoaderProvider,
+    private alertCtrl: AlertController
   ) {
     this.initPage();
   }
@@ -118,5 +121,39 @@ export class NewsPage {
             this.initPage();
           });
       });
+  }
+
+  edit(slidingItem: ItemSliding, item) {
+    slidingItem.close();
+
+    console.log("NewsPage -> edit -> item", item);
+  }
+
+  delete(slidingItem: ItemSliding, item) {
+    slidingItem.close();
+
+    let confirm = this.alertCtrl.create({
+      title: "뉴스 삭제",
+      message: item.title.substr(0, 7) + "...을 삭제하시겠습니까?",
+      buttons: [
+        {
+          text: "아니요",
+          handler: () => {
+            console.log("news delete cancelled");
+          },
+        },
+        {
+          text: "예",
+          handler: () => {
+            var deleteRef = firebase.database().ref("news/" + item.key);
+            deleteRef
+              .remove()
+              .catch((error) => console.warn("delete error", error));
+          },
+        },
+      ],
+    });
+
+    confirm.present();
   }
 }
