@@ -17,12 +17,8 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item-sliding
-      #slidingItem
-      *ngFor="let newsItem of news"
-      (click)="onClickNews(newsItem)"
-    >
-      <ion-item>
+    <ion-item-sliding #slidingItem *ngFor="let newsItem of news">
+      <ion-item (click)="onClickNews(newsItem)">
         <div class="news__title" text-wrap>
           {{newsItem.title}}
           <ion-badge item-end>{{newsItem.clickCount}}</ion-badge>

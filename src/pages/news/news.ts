@@ -26,6 +26,7 @@ import { LoaderProvider } from "../../providers/loader/loader";
 })
 export class NewsPage {
   private news: any;
+  private mode: any;
 
   constructor(
     public navCtrl: NavController,
@@ -66,7 +67,11 @@ export class NewsPage {
   }
 
   add() {
-    let newsModal = this.modalCtrl.create(NewsModalPage);
+    this.mode = "add";
+    let newsModal = this.modalCtrl.create(NewsModalPage, {
+      mode: this.mode,
+      news: "",
+    });
 
     newsModal.onDidDismiss((data) => {
       if (data) {
@@ -78,55 +83,77 @@ export class NewsPage {
   }
 
   updateNews(data) {
-    var newPostKey = firebase.database().ref().child("news/").push().key;
-    let timeStamp: any = firebase.database.ServerValue.TIMESTAMP;
-    console.log("NewsPage -> updateNews -> timeStamp", timeStamp);
+    if (this.mode === "edit") {
+      var editedPostData = {
+        ...data,
+      };
+      var updates = {};
+      updates["/news/" + data.key] = editedPostData;
+      console.log("NewsPage -> updateNews -> updates", updates);
 
-    var postData = {
-      title: data.title,
-      category: data.category,
-      source: data.source,
-      url: data.url,
-      date: moment().format("YYYY-MM-DD:HH:mm:SS"),
-      clickCount: 0,
-      key: newPostKey,
-      timeStamp,
-    };
+      firebase.database().ref().update(updates);
+    } else {
+      var newPostKey = firebase.database().ref().child("news/").push().key;
+      let timeStamp: any = firebase.database.ServerValue.TIMESTAMP;
 
-    // Write the new post's data simultaneously in the posts list and the user's post list.
-    var updates = {};
-    updates["/news/" + newPostKey] = postData;
-    console.log("NewsPage -> updateNews -> updates", updates);
+      var postData = {
+        title: data.title,
+        category: data.category,
+        source: data.source,
+        url: data.url,
+        date: moment().format("YYYY-MM-DD:HH:mm:SS"),
+        clickCount: 0,
+        key: newPostKey,
+        timeStamp,
+      };
 
-    firebase
-      .database()
-      .ref()
-      .update(updates)
-      .then(() => {
-        var stampRef = firebase.database().ref("news/" + newPostKey);
-        var stamp: any;
+      // Write the new post's data simultaneously in the posts list and the user's post list.
+      var updates = {};
+      updates["/news/" + newPostKey] = postData;
+      console.log("NewsPage -> updateNews -> updates", updates);
 
-        stampRef
-          .once("value", (item: any) => {
-            stamp = item.val().timeStamp * -1;
-          })
-          .then(() => {
-            firebase
-              .database()
-              .ref("news/" + newPostKey)
-              .update({
-                timeStamp: stamp,
-              });
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          var stampRef = firebase.database().ref("news/" + newPostKey);
+          var stamp: any;
 
-            this.initPage();
-          });
-      });
+          stampRef
+            .once("value", (item: any) => {
+              stamp = item.val().timeStamp * -1;
+            })
+            .then(() => {
+              firebase
+                .database()
+                .ref("news/" + newPostKey)
+                .update({
+                  timeStamp: stamp,
+                });
+
+              this.initPage();
+            });
+        });
+    }
   }
 
   edit(slidingItem: ItemSliding, item) {
     slidingItem.close();
 
-    console.log("NewsPage -> edit -> item", item);
+    this.mode = "edit";
+    let newsModal = this.modalCtrl.create(NewsModalPage, {
+      mode: this.mode,
+      newsItem: item,
+    });
+
+    newsModal.onDidDismiss((data) => {
+      if (data) {
+        this.updateNews(data);
+      }
+    });
+
+    newsModal.present();
   }
 
   delete(slidingItem: ItemSliding, item) {
@@ -148,6 +175,9 @@ export class NewsPage {
             var deleteRef = firebase.database().ref("news/" + item.key);
             deleteRef
               .remove()
+              .then(() => {
+                this.initPage();
+              })
               .catch((error) => console.warn("delete error", error));
           },
         },

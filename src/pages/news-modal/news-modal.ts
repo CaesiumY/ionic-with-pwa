@@ -36,6 +36,12 @@ export class NewsModalPage {
     private loader: LoaderProvider,
     private viewCtrl: ViewController
   ) {
+    var mode = this.navParams.get("mode");
+
+    if (mode === "edit") {
+      this.news = this.navParams.get("newsItem");
+    }
+
     this.getCategoryData();
   }
 
