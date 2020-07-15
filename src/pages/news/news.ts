@@ -201,4 +201,13 @@ export class NewsPage {
       infiniteScroll.complete();
     }, 500);
   }
+
+  async doRefresh(refresher) {
+    this.limit = 10;
+    await this.initPage();
+
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
+  }
 }
