@@ -27,6 +27,7 @@ import { LoaderProvider } from "../../providers/loader/loader";
 export class NewsPage {
   private news: any;
   private mode: any;
+  private limit: any = 10;
 
   constructor(
     public navCtrl: NavController,
@@ -41,7 +42,11 @@ export class NewsPage {
   async initPage() {
     this.loader.show();
     try {
-      var newsRef = firebase.database().ref("news/").orderByChild("timeStamp");
+      var newsRef = firebase
+        .database()
+        .ref("news/")
+        .orderByChild("timeStamp")
+        .limitToFirst(this.limit);
 
       const items = await newsRef.once("value");
       if (items) {
@@ -55,6 +60,7 @@ export class NewsPage {
             date: item.val().date,
             clickCount: item.val().clickCount,
             key: item.val().key,
+            timeStamp: item.val().timeStamp,
           });
         });
       } else {
@@ -87,11 +93,11 @@ export class NewsPage {
       var editedPostData = {
         ...data,
       };
-      var updates = {};
-      updates["/news/" + data.key] = editedPostData;
-      console.log("NewsPage -> updateNews -> updates", updates);
+      var editedUpdates = {};
+      editedUpdates["/news/" + data.key] = editedPostData;
+      console.log("NewsPage -> updateNews -> editedUpdates", editedUpdates);
 
-      firebase.database().ref().update(updates);
+      firebase.database().ref().update(editedUpdates);
     } else {
       var newPostKey = firebase.database().ref().child("news/").push().key;
       let timeStamp: any = firebase.database.ServerValue.TIMESTAMP;
@@ -185,5 +191,14 @@ export class NewsPage {
     });
 
     confirm.present();
+  }
+
+  async doInfinite(infiniteScroll) {
+    this.limit += 10;
+    await this.initPage();
+
+    setTimeout(() => {
+      infiniteScroll.complete();
+    }, 500);
   }
 }
