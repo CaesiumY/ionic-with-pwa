@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-card>
+  <!-- <ion-card>
     <ion-card-header>User Information</ion-card-header>
     <ion-card-content>
       <ion-item>
@@ -28,7 +28,36 @@
         <ion-input type="text" [value]="userId" readonly></ion-input>
       </ion-item>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item (click)="onClickNews(newsItem)" *ngFor="let newsItem of news">
+      <div class="news__title" text-wrap>
+        {{newsItem.title}}
+        <ion-badge item-end>{{newsItem.clickCount}}</ion-badge>
+      </div>
+      <ion-grid no-padding>
+        <ion-row>
+          <ion-col>
+            <div class="news__category">{{newsItem.category}}</div>
+          </ion-col>
+          <ion-col>
+            <div class="news__source">{{newsItem.source}}</div>
+          </ion-col>
+          <ion-col>
+            <div class="news__date">{{newsItem.date}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 
 <ion-footer *ngIf="masterSwitch">
