@@ -22,7 +22,7 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    private alerCtrl: AlertController,
+    private alertCtrl: AlertController,
     private loader: LoaderProvider,
     private iab: InAppBrowser
   ) {
@@ -88,8 +88,64 @@ export class HomePage {
     this.loader.hide();
   }
 
+  search() {
+    let prompt = this.alertCtrl.create({
+      title: "검색어 입력",
+      message: "검색어를 입력해 주세요.",
+      inputs: [
+        {
+          name: "keyword",
+          placeholder: "Keyword",
+        },
+      ],
+      buttons: [
+        {
+          text: "취소",
+          handler: () => {
+            console.log("search cancelled");
+          },
+        },
+        {
+          text: "검색",
+          handler: (data) => {
+            this.searchNews(data);
+          },
+        },
+      ],
+    });
+
+    prompt.present();
+  }
+
+  searchNews({ keyword }) {
+    var tmpNews = [];
+    var newsRef = firebase.database().ref("news/");
+    newsRef
+      .once("value", (items: any) => {
+        if (items.val()) {
+          items.forEach((item) => {
+            tmpNews = [...tmpNews, ...item.val()];
+          });
+        } else {
+          console.log("no news data");
+        }
+      })
+      .then(() => {
+        // this.news = [];
+        if (keyword && keyword.trim() != "") {
+          this.news = tmpNews.filter((tmpNewsItem) => {
+            return (
+              tmpNewsItem.title.toLowerCase().indexOf(keyword.toLowerCase()) >
+              -1
+            );
+          });
+        }
+      })
+      .catch((error) => console.warn(error));
+  }
+
   logout() {
-    let confirm = this.alerCtrl.create({
+    let confirm = this.alertCtrl.create({
       title: "Log out",
       message: "로그아웃 하시겠습니까?",
       buttons: [
@@ -122,7 +178,7 @@ export class HomePage {
   }
 
   onClickNews(newsItem) {
-    const browswer = this.iab.create(newsItem.url);
+    const browser = this.iab.create(newsItem.url);
   }
 
   async doInfinite(infiniteScroll) {

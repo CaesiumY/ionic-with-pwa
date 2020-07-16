@@ -75,7 +75,7 @@ export class NewsPage {
   }
 
   onClickNews(newsItem) {
-    const browswer = this.iab.create(newsItem.url);
+    const browser = this.iab.create(newsItem.url);
   }
 
   add() {
