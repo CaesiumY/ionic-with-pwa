@@ -56,9 +56,7 @@ export class NewsModalPage {
   async getCategoryData() {
     this.loader.show();
     try {
-      var categoryRef = firebase
-        .database()
-        .ref("/users/" + firebase.auth().currentUser.uid + "/category/");
+      var categoryRef = firebase.database().ref("/category/");
 
       const items = await categoryRef.once("value");
       this.categoryData = [];

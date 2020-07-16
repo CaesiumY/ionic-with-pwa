@@ -36,9 +36,7 @@ export class CategoryPage {
 
   getCategoryData() {
     this.loader.show();
-    var userRef = firebase
-      .database()
-      .ref("/users/" + firebase.auth().currentUser.uid + "/category/");
+    var userRef = firebase.database().ref("/category/");
 
     userRef.on("value", (items: any) => {
       this.category = [];
@@ -54,12 +52,11 @@ export class CategoryPage {
             },
           ];
         });
-
-        this.loader.hide();
       } else {
         console.log("No Category Data");
       }
     });
+    this.loader.hide();
   }
 
   add() {
@@ -94,12 +91,7 @@ export class CategoryPage {
             };
 
             var updates = {};
-            updates[
-              "/users/" +
-                firebase.auth().currentUser.uid +
-                "/category/" +
-                data.code
-            ] = tmpCategory;
+            updates["/category/" + data.code] = tmpCategory;
             firebase
               .database()
               .ref()
@@ -149,12 +141,7 @@ export class CategoryPage {
             };
 
             var updates = {};
-            updates[
-              "/users/" +
-                firebase.auth().currentUser.uid +
-                "/category/" +
-                data.code
-            ] = tmpCategory;
+            updates["/category/" + data.code] = tmpCategory;
             firebase
               .database()
               .ref()
@@ -184,14 +171,7 @@ export class CategoryPage {
         {
           text: "예",
           handler: () => {
-            var deleteRef = firebase
-              .database()
-              .ref(
-                "/users/" +
-                  firebase.auth().currentUser.uid +
-                  "/category/" +
-                  item.code
-              );
+            var deleteRef = firebase.database().ref("/category/" + item.code);
             deleteRef
               .remove()
               .catch((error) => console.warn("delete error", error));
