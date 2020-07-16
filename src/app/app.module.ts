@@ -14,6 +14,7 @@ import { UserPage } from "../pages/user/user";
 import { CategoryPage } from "../pages/category/category";
 import { NewsPage } from "../pages/news/news";
 import { NewsModalPage } from "../pages/news-modal/news-modal";
+import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { NewsModalPage } from "../pages/news-modal/news-modal";
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     LoaderProvider,
+    InAppBrowser,
   ],
 })
 export class AppModule {}

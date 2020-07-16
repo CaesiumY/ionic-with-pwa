@@ -11,6 +11,7 @@ import { NewsModalPage } from "../news-modal/news-modal";
 import firebase from "firebase";
 import moment from "moment";
 import { LoaderProvider } from "../../providers/loader/loader";
+import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 
 /**
  * Generated class for the NewsPage page.
@@ -34,7 +35,8 @@ export class NewsPage {
     public navParams: NavParams,
     private modalCtrl: ModalController,
     private loader: LoaderProvider,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private iab: InAppBrowser
   ) {
     this.initPage();
   }
@@ -70,6 +72,10 @@ export class NewsPage {
       console.warn("NewsPage -> initPage -> error", error);
     }
     this.loader.hide();
+  }
+
+  onClickNews(newsItem) {
+    const browswer = this.iab.create(newsItem.url);
   }
 
   add() {
