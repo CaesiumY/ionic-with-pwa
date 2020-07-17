@@ -27,6 +27,7 @@ import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
     // CategoryPage,
     // NewsPage,
     // NewsModalPage,
+    // NOTE - Uncomment this if you going to develop. Or Comment this if you going to build this app.
   ],
   imports: [BrowserModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],

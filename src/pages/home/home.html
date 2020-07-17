@@ -36,7 +36,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-list>
+  <!-- <ion-list>
     <ion-item (click)="onClickNews(newsItem)" *ngFor="let newsItem of news">
       <div class="news__title" text-wrap>
         {{newsItem.title}}
@@ -56,6 +56,42 @@
         </ion-row>
       </ion-grid>
     </ion-item>
+  </ion-list> -->
+
+  <ion-list no-lines>
+    <ion-grid no-padding>
+      <ion-row>
+        <ion-col col-sm-12 col-md-4 col-xl-3 *ngFor="let newsItem of news">
+          <ion-item (click)="onClickNews(newsItem)">
+            <ion-card>
+              <ion-card-header>
+                <div class="cardnews__title" text-wrap>
+                  {{newsItem.title}}
+                  <ion-badge item-end>{{newsItem.clickCount}}</ion-badge>
+                </div>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-grid no-padding>
+                  <ion-row>
+                    <ion-col>
+                      <div class="cardnews__category">
+                        {{newsItem.category}}
+                      </div>
+                    </ion-col>
+                    <ion-col>
+                      <div class="cardnews__source">{{newsItem.source}}</div>
+                    </ion-col>
+                    <ion-col>
+                      <div class="cardnews__date">{{newsItem.date}}</div>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-list>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
