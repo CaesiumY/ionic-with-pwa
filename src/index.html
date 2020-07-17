@@ -21,6 +21,19 @@
     <!-- cordova.js required for cordova apps (remove if not needed) -->
     <!-- <script src="cordova.js"></script> -->
 
+    <script
+      src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
+      async=""
+    ></script>
+    <script>
+      window.OneSignal = window.OneSignal || [];
+      OneSignal.push(function () {
+        OneSignal.init({
+          appId: "57b51494-a875-4d6c-8c6d-9add5bb7cb7f",
+        });
+      });
+    </script>
+
     <!-- un-comment this code to enable service worker -->
     <script>
       if ("serviceWorker" in navigator) {
