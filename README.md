@@ -8,7 +8,9 @@
 
 > An Ionic project with PWA
 
-### 🏠 [Homepage](https://github.com/CaesiumY)
+### 🏠 [Homepage](https://ionic-with-firebase-3234c.web.app/)
+
+### ✨ [Demo](https://ionic-with-firebase-3234c.web.app/)
 
 ## Install
 
