@@ -12,6 +12,13 @@
 
 ### ✨ [Demo](https://ionic-with-firebase-3234c.web.app/)
 
+## 📸 Screenshot
+
+<details>
+  <summary>HomeScreen</summary>
+  <img src="./screenshots/localhost_8100_(iPhone%20X).png" alt="homeScreen" width="480"/>
+</details>
+
 ## Install
 
 ```sh
@@ -28,12 +35,13 @@ npm run start
 
 👤 **caesiumy**
 
-* Website: https://caesiumy.github.io/
-* Github: [@caesiumy](https://github.com/caesiumy)
+- Website: https://caesiumy.github.io/
+- Github: [@caesiumy](https://github.com/caesiumy)
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
 
-***
+---
+
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
